@@ -19,7 +19,7 @@ final class SearchViewModel: ObservableObject {
     private let service =  FatSecretFoodService()
     
     func fetchFoods(query: String) {
-        //This is to clean the query from white spaces.
+        
         let cleanedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !cleanedQuery.isEmpty else {
             self.searchResults = []
@@ -40,25 +40,4 @@ final class SearchViewModel: ObservableObject {
             isLoading = false
         }
     }
-    
-//    private func handleError(_ error: Error) -> String {
-//        if let netError = error as? NetworkError {
-//            switch netError {
-//                case .invalidUrl:
-//                    return "❌ Invalid URL"
-//                case .invalidResponse:
-//                    return "❌ Invalid server response"
-//                case .httpError(statusCode: let code, _):
-//                    return "❌ Server Error: \(code)"
-//                case .noData:
-//                    return "❌ No data found"
-//                case .decodingError:
-//                    return "❌ Failed to decode data"
-//                case .requestFailed(let e):
-//                    return "❌ Conection failed: \(e.localizedDescription)"
-//            }
-//        }
-//        return "❌ Unknown error: \(error.localizedDescription)"
-//    }
-    
 }

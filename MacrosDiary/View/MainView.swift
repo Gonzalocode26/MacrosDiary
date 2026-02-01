@@ -10,6 +10,7 @@ import SwiftData
 
 struct MainView: View {
     @Environment(\.modelContext) var context
+    @StateObject private var profileViewModel = ProfileViewModel()
     var body: some View {
         TabView {
             Tab("Diary", systemImage: "book.closed") {
@@ -17,11 +18,11 @@ struct MainView: View {
             }
             
             Tab("Stats", systemImage: "chart.bar") {
-                StatsView(modelContext: context)
+                StatsView(modelContext: context, profileViewModel: profileViewModel)
             }
             
             Tab("Profile", systemImage: "person.crop.circle") {
-                ProfileView()
+                ProfileView(viewModel: profileViewModel)
             }
         }
         .tint(Color.purple)

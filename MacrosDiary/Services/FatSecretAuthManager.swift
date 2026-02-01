@@ -47,8 +47,6 @@ actor FatSecretAuthManager {
         
         request.httpBody = bodyString.data(using: .utf8)
         
-//        print("ClientID: \(clientId) length: \(clientId.count)")
-        
         let (data, response) = try await URLSession.shared.data(for: request)
         
         guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
@@ -60,7 +58,6 @@ actor FatSecretAuthManager {
         let tokenResponse = try JSONDecoder().decode(FatSecretToken.self, from: data)
         self.currentToken = tokenResponse.accessToken
         self.tokenExpirationDate = Date().addingTimeInterval(TimeInterval(tokenResponse.expiresIn - 60))
-//        print("Token recevied and saved. Expires in \(tokenResponse.expiresIn) seconds")
         return tokenResponse.accessToken
     }
 }

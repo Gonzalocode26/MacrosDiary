@@ -15,7 +15,6 @@ class FatSecretFoodService {
     
     func searchFood(query: String) async throws -> [FatSecretFood] {
         
-        //Let's get the token first
         let token = try await FatSecretAuthManager.shared.getValidToken()
         
         guard var components = URLComponents(string: searchUrl) else {
@@ -38,14 +37,6 @@ class FatSecretFoodService {
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
         let (data, response) = try await URLSession.shared.data(for: request)
-        
-//#if DEBUG
-//        if let jsonString = String(data: data, encoding: .utf8) {
-//            print("----RAW JSON RESPONSE------")
-//            print(jsonString)
-//            print("---------------------------")
-//        }
-//#endif // DEBUG
         
         guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
             if let string = String(data: data, encoding: .utf8) { print("Error search api:  \(string)")}
@@ -80,7 +71,7 @@ class FatSecretFoodService {
                     print(jsonString)
                     print("---------------------------")
                 }
-        #endif // DEBUG
+        #endif
         
         guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
             throw URLError(.badServerResponse)

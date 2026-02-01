@@ -64,12 +64,12 @@ class StatsViewModel: ObservableObject {
         
         guard let safeResults = try? modelContext.fetch(descriptor) else {return}
         
-         self.historyDays = safeResults //This is to have access
+         self.historyDays = safeResults
          
         self.weeklyData = safeResults.map{ day in
             let allFoodsPerDay = day.meals.flatMap { $0.foods }
         
-//            Reduce works as a calculator starting in (0)
+
             let totalCalories = allFoodsPerDay.reduce(0) {$0 + $1.calories}
             let totalProtein = allFoodsPerDay.reduce(0) {$0 + $1.protein}
             let totalCarbs = allFoodsPerDay.reduce(0) {$0 + $1.carbs}
@@ -96,7 +96,19 @@ class StatsViewModel: ObservableObject {
             fetchWeeklyDays()
         }
     }
-    
 }
 
-
+extension FoodItem {
+    func formattedValue(for stat: StatType) -> String {
+        switch stat {
+        case .calories:
+            return "\(Int(calories)) kcal"
+        case .protein:
+            return String(format: "%.1f g", protein)
+        case .carbs:
+            return String(format: "%.1f g", carbs)
+        case .fat:
+            return String(format: "%.1f g", fat)
+        }
+    }
+}

@@ -25,7 +25,6 @@ class DiaryDayViewModel: ObservableObject {
     private func loadOrCreateToday() {
         let todayStart = Calendar.current.startOfDay(for: Date())
         let descriptor = FetchDescriptor<DiaryDay>()
-        //This can get an empty array NOT NIL!!!
         let results = try? context.fetch(descriptor)
         
         if let existing = results?.first(where: { Calendar.current.isDate($0.date, inSameDayAs: todayStart) }) {

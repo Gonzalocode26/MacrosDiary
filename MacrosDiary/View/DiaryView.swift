@@ -62,6 +62,7 @@ struct DiaryView: View {
                 )
             }
         }
+        .background(Color(.systemGray6)).ignoresSafeArea()
     }
 }
 
@@ -138,12 +139,17 @@ struct MealCard: View {
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .padding(.horizontal)
             }
+            
             Button(action: onAddTapped) {
                 Label("Add Food", systemImage: "plus")
+                    .font(.headline)
                     .frame(maxWidth: .infinity)
+                    .frame(height: 30)
+                    .padding(.vertical, 8)
+                    .foregroundStyle(.white)
+                    .background(Color.purple)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
             }
-            .buttonStyle(.bordered)
-            .tint(.purple)
             .padding(.horizontal)
             .padding(.bottom, 8)
         }

@@ -56,8 +56,11 @@ struct ChartView: View {
                 ContentUnavailableView("No Data", image: "chart.bart.xaxis", description: Text("Add meals to see your stats."))
             }
         }
+        .background(Color(.secondarySystemBackground))
         .frame(height: 200)
-        .padding(.horizontal)
+        .padding(10)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        //CHECK THE BACKGROUND HERE
     }
     
     

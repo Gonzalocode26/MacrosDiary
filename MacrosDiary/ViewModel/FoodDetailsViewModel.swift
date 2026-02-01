@@ -14,7 +14,7 @@ final class FoodDetailsViewModel: ObservableObject {
     
     private let service = FatSecretFoodService()
     
-    let food: FatSecretFood //this food comes with all the data
+    let food: FatSecretFood
     
     @Published var selectedServing: FatSecretServing? {
         didSet {
@@ -51,25 +51,25 @@ final class FoodDetailsViewModel: ObservableObject {
     func formatServingLabel(_ serving: FatSecretServing) -> String {
         let desc = serving.servingDescription.lowercased()
         
-        // Size
+        
         if desc.contains("extra large") { return "Extra Large"}
         if desc.contains("extra small") { return "Extra Small"}
         if desc.contains("large") { return "Large"}
         if desc.contains("medium") { return "Medium"}
         if desc.contains("small") { return "Small"}
         
-        //Standard Unit
+        
         if desc.contains("cup") { return "Cup"}
         if desc.contains("tablespoon") { return "Tablespoon"}
         if desc.contains("teaspoon") { return "Teaspoon"}
         if desc.contains("oz") { return "Ounces (oz)"}
         if desc.contains("Slice") { return "Slice"}
         
-        // Weight / Volume
+        
         if desc.contains("100 g") { return "Grams (g)"}
         if desc.contains("100 ml") { return "Mililiters (ml)"}
         
-        //To delete "1" from the beginnig "1 medium" -> "medium"
+        
         var clean = serving.servingDescription
         if clean.hasPrefix("1 ") {
             clean = String(clean.dropFirst(2))
@@ -110,6 +110,18 @@ final class FoodDetailsViewModel: ObservableObject {
     }
     var currentFats: Double {
         (selectedServing?.fatValue ?? 0) * multiplier
+    }
+    var currentCholesterol: Double {
+        (selectedServing?.cholesterolValue ?? 0) * multiplier
+    }
+    var currentSodium: Double {
+        (selectedServing?.sodiumValue ?? 0) * multiplier
+    }
+    var currentSugar: Double {
+        (selectedServing?.sugarValue ?? 0) * multiplier
+    }
+    var currentFiber: Double {
+        (selectedServing?.fiberValue ?? 0) * multiplier
     }
     
     var macroDistribution: [MacroData] {

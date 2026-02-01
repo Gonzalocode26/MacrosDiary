@@ -108,6 +108,10 @@ struct FatSecretServing: Codable, Identifiable, Hashable {
     let carbohydrate: String?
     let protein: String?
     let fat: String?
+    let cholesterol: String?
+    let sodium: String?
+    let sugar: String?
+    let fiber: String?
     
     enum CodingKeys: String, CodingKey {
         case servingId = "serving_id"
@@ -115,10 +119,15 @@ struct FatSecretServing: Codable, Identifiable, Hashable {
         case metricServingAmount = "metric_serving_amount"
         case metricServingUnit = "metric_serving_unit"
         case calories, carbohydrate, protein, fat
+        case cholesterol, sodium, sugar, fiber
     }
     
     var caloriesValue: Double { Double(calories ?? "") ?? 0}
     var carbohydrateValue: Double { Double(carbohydrate ?? "") ?? 0}
     var proteinValue: Double { Double(protein ?? "") ?? 0}
     var fatValue: Double { Double(fat ?? "") ?? 0}
+    var cholesterolValue: Double { Double(cholesterol ?? "") ?? 0}
+    var sodiumValue: Double { Double(sodium ?? "") ?? 0}
+    var sugarValue: Double { Double(sugar ?? "") ?? 0}
+    var fiberValue: Double { Double(fiber ?? "") ?? 0}
 }
