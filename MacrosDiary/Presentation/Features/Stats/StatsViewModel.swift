@@ -1,0 +1,127 @@
+//
+//  StatsViewModel.swift
+//  MacrosDiary
+//
+//  Created by Gonzalo Menéndez on 23/12/25.
+//
+
+import SwiftUI
+import SwiftData
+import Combine
+
+@MainActor
+class StatsViewModel: ObservableObject {
+    private let localContext: ModelContext
+    private let profileRepository: UserProfileRepositoryProtocol
+    
+    @Published var profileData: ProfileData?
+    
+    @Published var weeklyData: [DailyChartData] = []
+    @Published var historyDays: [DiaryDay] = []
+    @Published var currentWeekStart: Date = Date()
+    @Published var selectedDate: Date? = nil
+    
+    init(localContext: ModelContext, profileRepository: UserProfileRepositoryProtocol) {
+        self.localContext = localContext
+        self.profileRepository = profileRepository
+        self.profileData = profileData
+    }
+    
+    // MARK: - Target
+    
+    var calorieTarget: Double { profileData?.target.calories ?? 2000 }
+    var proteinTarget: Double { profileData?.target.protein ?? 150 }
+    var carbsTarget: Double { profileData?.target.carbs ?? 250 }
+    var fatTarget: Double { profileData?.target.fat ?? 65 }
+    
+    var filteredDays: [DiaryDay] {
+        guard let targetDate = selectedDate else {
+            return historyDays
+        }
+        return historyDays.filter { day in
+            Calendar.current.isDate(day.date, inSameDayAs: targetDate)
+        }
+    }
+    
+    var weekRangeString: String {
+        let start = currentWeekStart
+        let end = Calendar.current.date(byAdding: .day, value: 6, to: start)
+        
+        let startText = start.formatted(.dateTime.day().month())
+        let endText = end!.formatted(.dateTime.day().month())
+        
+        return "\(startText) - \(endText)"
+    }
+    
+    
+    
+    private func getStartOfWeek(for date: Date) -> Date {
+        var calendar = Calendar.current
+        calendar.firstWeekday = 2
+        
+        let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)
+        
+        return calendar.date(from: components) ?? date
+    }
+    
+    func fetchWeeklyDays() {
+        let startDate = currentWeekStart
+        let endDate = Calendar.current.date(byAdding: .day, value: 6, to: startDate)!
+        
+        let filter = #Predicate<DiaryDay> { day in
+            day.date >= startDate && day.date <= endDate
+        }
+        let descriptor = FetchDescriptor<DiaryDay>(predicate: filter, sortBy: [SortDescriptor(\.date)])
+        
+        guard let safeResults = try? localContext.fetch(descriptor) else {return}
+        
+        self.historyDays = safeResults
+        
+        self.weeklyData = safeResults.map{ day in
+            let allFoodsPerDay = day.meals.flatMap { $0.foods }
+            
+            
+            let totalCalories = allFoodsPerDay.reduce(0) {$0 + $1.calories}
+            let totalProtein = allFoodsPerDay.reduce(0) {$0 + $1.protein}
+            let totalCarbs = allFoodsPerDay.reduce(0) {$0 + $1.carbs}
+            let totalFat = allFoodsPerDay.reduce(0) {$0 + $1.fat}
+            
+            return DailyChartData(date: day.date, calories: totalCalories, protein: totalProtein, carbs: totalCarbs, fats: totalFat)
+        }
+        print("📊Stats charged: \(weeklyData.count) days found")
+    }
+    
+    func deletefood(food: FoodItem, meal: Meal) {
+        if let index = meal.foods.firstIndex(where: { $0.id == food.id }) {
+            meal.foods.remove(at: index)
+        }
+        localContext.delete(food)
+        
+        try? localContext.save()
+        
+        fetchWeeklyDays()
+    }
+    
+    func changeWeek(by value: Int) {
+        if let newDate = Calendar.current.date(byAdding: .weekOfYear, value: value, to: currentWeekStart)  {
+            currentWeekStart = newDate
+            selectedDate = nil
+            fetchWeeklyDays()
+        }
+    }
+}
+
+extension FoodItem {
+    func formattedValue(for stat: StatType) -> String {
+        switch stat {
+        case .calories:
+            return "\(Int(calories)) kcal"
+        case .protein:
+            return String(format: "%.1f g", protein)
+        case .carbs:
+            return String(format: "%.1f g", carbs)
+        case .fat:
+            return String(format: "%.1f g", fat)
+        }
+    }
+}
