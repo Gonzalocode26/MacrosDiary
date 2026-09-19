@@ -44,7 +44,7 @@ struct EditProfileView: View {
                             )
                             
                             Divider()
-
+                            
                             inputRow(
                                 title: "Weight",
                                 value: $viewModel.weight,
@@ -52,7 +52,7 @@ struct EditProfileView: View {
                                 unit: "kg",
                                 keyboard: .decimalPad
                             )
-
+                            
                             Divider()
                             
                             inputRow(
@@ -73,7 +73,7 @@ struct EditProfileView: View {
                                 HStack{
                                     ForEach(Gender.allCases) { gender in
                                         ChipButton(
-                                            title: gender.rawValue,
+                                            title: gender.title,
                                             isSelected: viewModel.gender == gender,
                                             action: {withAnimation {viewModel.gender = gender} }
                                         )
@@ -107,9 +107,9 @@ struct EditProfileView: View {
                                     HStack{
                                         ForEach(GoalType.allCases) { goal in
                                             ChipButton(
-                                                title: goal.rawValue,
-                                                isSelected: viewModel.selectedGoal == goal,
-                                                action: { withAnimation{viewModel.selectedGoal = goal} }
+                                                title: goal.title,
+                                                isSelected: viewModel.goal == goal,
+                                                action: { withAnimation{viewModel.goal = goal} }
                                             )
                                         }
                                     }
@@ -118,7 +118,7 @@ struct EditProfileView: View {
                             }
                         }
                         Button {
-                            viewModel.recalculateMacros()
+                            viewModel.isAutoCalculate = true
                             viewModel.save()
                             dismiss()
                         } label: {
@@ -146,58 +146,59 @@ struct EditProfileView: View {
         .background(Color(.systemGray6)).ignoresSafeArea()
     }
     
-        @ViewBuilder
+    @ViewBuilder
     func inputRow<T, F: ParseableFormatStyle>(
-            title: String,
-            value: Binding<T>,
-            format: F,
-            unit: String,
-            keyboard: UIKeyboardType
-        ) -> some View where F.FormatInput == T, F.FormatOutput == String {
-            HStack{
-                Text(title)
-                    .bold()
-                
-                Spacer()
-                
-                TextField("0", value: value, format: format)
-                    .keyboardType(keyboard)
-                    .multilineTextAlignment(.trailing)
-                    .frame(width: 60)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                    .overlay(RoundedRectangle(cornerRadius: 8) .stroke(Color(.gray.opacity(0.3)), lineWidth: 1))
-                
-                
-                if !unit.isEmpty {
-                    Text(unit)
-                        .foregroundStyle(.secondary)
-                }
+        title: String,
+        value: Binding<T>,
+        format: F,
+        unit: String,
+        keyboard: UIKeyboardType
+    ) -> some View where F.FormatInput == T, F.FormatOutput == String {
+        HStack{
+            Text(title)
+                .bold()
+            
+            Spacer()
+            
+            TextField("0", value: value, format: format)
+                .keyboardType(keyboard)
+                .multilineTextAlignment(.trailing)
+                .frame(width: 60)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .overlay(RoundedRectangle(cornerRadius: 8) .stroke(Color(.gray.opacity(0.3)), lineWidth: 1))
+            
+            
+            
+            if !unit.isEmpty {
+                Text(unit)
+                    .foregroundStyle(.secondary)
             }
         }
     }
+}
+
+struct ChipButton: View {
+    let title: String
+    let isSelected: Bool
+    let action: () -> Void
     
-    struct ChipButton: View {
-        let title: String
-        let isSelected: Bool
-        let action: () -> Void
-        
-        var body: some View {
-            Button(action: action) {
-                Text(title)
-                    .font(.system(size: 14, weight: isSelected ? .semibold : .regular))
-                    .padding(.vertical, 8)
-                    .padding(.horizontal, 16)
-                    .background(isSelected ? Color.purple : .gray.opacity(0.1))
-                    .foregroundStyle(isSelected ? .white : .primary)
-                    .clipShape(Capsule())
-            }
-            .buttonStyle(.plain)
+    var body: some View {
+        Button(action: action) {
+            Text(title)
+                .font(.system(size: 14, weight: isSelected ? .semibold : .regular))
+                .padding(.vertical, 8)
+                .padding(.horizontal, 16)
+                .background(isSelected ? Color.purple : .gray.opacity(0.1))
+                .foregroundStyle(isSelected ? .white : .primary)
+                .clipShape(Capsule())
         }
+        .buttonStyle(.plain)
     }
-    
-    #Preview {
-        EditProfileView(viewModel: ProfileViewModel())
-    }
+}
+
+#Preview {
+    EditProfileView(viewModel: ProfileViewModel())
+}

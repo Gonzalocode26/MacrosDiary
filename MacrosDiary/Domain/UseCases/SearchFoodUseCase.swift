@@ -23,7 +23,13 @@ struct SearchFoodUseCase {
             return try await catalog.foodSearchResult(query: query)
         }
         
-        let englishQuery = try await translator.translate(text: query, targetLanguage: "EN-US")
+        let englishQuery: String
+        do {
+            englishQuery = try await translator.translate(text: query, targetLanguage: "EN-US")
+        } catch {
+            englishQuery = query
+        }
+        
         let englishResults = try await catalog.foodSearchResult(query: englishQuery)
         let targetDeepLLang = currentLanguageCode.uppercased()
         
@@ -32,7 +38,6 @@ struct SearchFoodUseCase {
             
             for item in englishResults {
                 group.addTask {
-                    
                     do {
                         let translatedName = try await translator.translate(text: item.name, targetLanguage: targetDeepLLang)
                         
