@@ -11,21 +11,19 @@ import SwiftData
 struct MainView: View {
     let appContainer: AppContainer
     
-    @Environment(\.modelContext) var context
-    @StateObject private var profileViewModel = ProfileViewModel()
     
     var body: some View {
         TabView {
             Tab("Diary", systemImage: "book.closed") {
-                DiaryView(modelContext: _context)
+                DiaryView(appContainer: appContainer)
             }
             
             Tab("Stats", systemImage: "chart.bar") {
-                StatsView(modelContext: context, profileViewModel: profileViewModel)
+                StatsView(appContainer: appContainer)
             }
             
             Tab("Profile", systemImage: "person.crop.circle") {
-                ProfileView(viewModel: profileViewModel)
+                ProfileView(appContainer: appContainer)
             }
         }
         .tint(Color.purple)

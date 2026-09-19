@@ -9,20 +9,27 @@ import SwiftUI
 import SwiftData
 
 struct DiaryView: View {
-    @Environment(\.modelContext) var modelContext
+    let appContainer: AppContainer
+    
+    @StateObject private var viewModel: DiaryDayViewModel
     @State private var activeMealType: MealType?
     
+    init(appContainer: AppContainer) {
+        self.appContainer = appContainer
+        _viewModel = StateObject(wrappedValue: DiaryDayViewModel(
+            repository: appContainer.mealRepository,
+            profileRepository: appContainer.userProfileRepository
+        ))
+    }
     
     var body: some View {
-        let repository = MealRepository(context: modelContext)
-        let viewModel = DiaryDayViewModel(repository: repository, profileRepository: UserProfileRepository())
-        
-        DiaryContentView(viewModel: viewModel, activeMealType: $activeMealType)
-        
+        DiaryContentView(appContainer: appContainer, viewModel: viewModel, activeMealType: $activeMealType)
     }
 }
 
 struct DiaryContentView: View {
+    let appContainer: AppContainer
+    
     @ObservedObject var viewModel: DiaryDayViewModel
     @Binding var activeMealType: MealType?
     
@@ -45,7 +52,7 @@ struct DiaryContentView: View {
                                     activeMealType = type
                                 }
                             } onDelete: { foodItem in
-                                viewModel.deleteFood(foodItem, meal: meal)
+                                Task { await viewModel.deleteFood(foodItem, meal: meal) }
                             }
                         }
                     } else {
@@ -58,15 +65,18 @@ struct DiaryContentView: View {
             .sheet(item: $activeMealType) { type in
                 SearchView(
                     selectedMeal: type,
-                    catalog: FatSecretFoodCatalog(),
+                    appContainer: self.appContainer,
                     onFoodSelected: { foodDetails in
-                        viewModel.addFood(from: foodDetails, to: type)
+                        Task { await viewModel.addFood(from: foodDetails, to: type) }
                         activeMealType = nil
                     }
                 )
             }
         }
         .background(Color(.systemGray6)).ignoresSafeArea()
+        .task {
+            await viewModel.loadOrCreateToday()
+        }
     }
 }
 
@@ -107,8 +117,9 @@ struct DailyProgressHeaderView: View {
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: DiaryDay.self, Meal.self, FoodItem.self, configurations: config)
+    let mockAppContainer = AppContainer(modelContext: container.mainContext)
     
-    DiaryView()
+    DiaryView(appContainer: mockAppContainer)
         .modelContainer(container)
 }
 

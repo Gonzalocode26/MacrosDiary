@@ -22,45 +22,37 @@ class DiaryDayViewModel: ObservableObject {
     ) {
         self.repository = repository
         self.profileRepository = profileRepository
-        
-        loadOrCreateToday()
     }
     
-    private func loadOrCreateToday() {
-        Task {
-            do {
-                self.diaryDay = try await repository.getDay(date: Date())
-                
-                calculateProgress()
-            }  catch {
-                print("Error loading day: \(error)")
-            }
+    func loadOrCreateToday() async {
+        do {
+            self.diaryDay = try await repository.getDay(date: Date())
+            
+            calculateProgress()
+        }  catch {
+            print("Error loading day: \(error)")
         }
     }
     
-    func addFood(from details: FoodDetails, to mealType: MealType) {
+    func addFood(from details: FoodDetails, to mealType: MealType) async {
         guard let day = diaryDay else { return }
         
-        Task {
-            do {
-                try await repository.addFood(details, to: mealType, for: day)
-                
-                calculateProgress()
-            } catch {
-                print("Error adding food: \(error)")
-            }
+        do {
+            try await repository.addFood(details, to: mealType, for: day)
+            
+            calculateProgress()
+        } catch {
+            print("Error adding food: \(error)")
         }
     }
     
-    func deleteFood(_ food: FoodItem, meal: Meal) {
-        Task {
-            do {
-                try await repository.deleteFood(food, from: meal)
-                
-                calculateProgress()
-            } catch {
-                print("Error deleting food: \(error)")
-            }
+    func deleteFood(_ food: FoodItem, meal: Meal) async {
+        do {
+            try await repository.deleteFood(food, from: meal)
+            
+            calculateProgress()
+        } catch {
+            print("Error deleting food: \(error)")
         }
     }
     
@@ -82,7 +74,7 @@ class DiaryDayViewModel: ObservableObject {
             consumedFat: totalFat,
             target: profileData.target
         )
-
+        
         self.dailyProgress = progress
     }
 }

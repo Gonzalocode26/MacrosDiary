@@ -6,12 +6,20 @@
 //
 
 import SwiftUI
+import SwiftData
 
 
 struct ProfileView: View {
-    @ObservedObject var viewModel: ProfileViewModel
+    let appContainer: AppContainer
+    
+    @StateObject private var viewModel: ProfileViewModel
     @State var isShowingEditSheet: Bool = false
-   
+    
+    init(appContainer: AppContainer) {
+        self.appContainer = appContainer
+        _viewModel = StateObject(wrappedValue: ProfileViewModel(repository: appContainer.userProfileRepository))
+    }
+    
     var body: some View {
         NavigationStack{
             ScrollView {
@@ -30,11 +38,11 @@ struct ProfileView: View {
                                     Text(viewModel.name)
                                         .foregroundStyle(.primary)
                                         .font(.subheadline)
-                                        
+                                    
                                     Text("Edit your physical data")
                                         .foregroundStyle(.secondary)
                                         .font(.caption)
-                                        
+                                    
                                 }
                                 Spacer()
                                 Image(systemName: "chevron.right")
@@ -61,7 +69,7 @@ struct ProfileView: View {
                                 .font(.headline)
                                 .foregroundStyle(.secondary)
                             Spacer()
-                            TextField("0", value: $viewModel.calorieGoal, format: .number.precision(.fractionLength(0)))
+                            TextField("0", value: $viewModel.calorieTarget, format: .number.precision(.fractionLength(0)))
                                 .foregroundStyle(.primary)
                                 .font(.subheadline)
                                 .keyboardType(.numberPad)
@@ -82,11 +90,11 @@ struct ProfileView: View {
                             .fontWeight(.semibold)
                             .foregroundStyle(.primary)
                         
-                        macroRow(title: "Protein", color: .red, icon: "fish.fill", value: viewModel.proteinGoal)
+                        macroRow(title: "Protein", color: .red, icon: "fish.fill", value: viewModel.proteinTarget)
                         Divider()
-                        macroRow(title: "Carbs", color: .blue, icon: "carrot.fill", value: viewModel.carbsGoal)
+                        macroRow(title: "Carbs", color: .blue, icon: "carrot.fill", value: viewModel.carbsTarget)
                         Divider()
-                        macroRow(title: "Fat", color: .yellow, icon: "drop.fill", value: viewModel.fatGoal)
+                        macroRow(title: "Fat", color: .yellow, icon: "drop.fill", value: viewModel.fatTarget)
                     }
                     .padding()
                     .background(Color(.secondarySystemBackground))
@@ -100,31 +108,35 @@ struct ProfileView: View {
             }
         }
         .background(Color(.systemGray6)).ignoresSafeArea()
-}
-
-@ViewBuilder
-private func macroRow(title: String, color: Color, icon: String, value: Double) -> some View {
-    HStack{
-        HStack(spacing: 8) {
-            Image(systemName: icon)
-                .foregroundStyle(color)
-                .font(.system(size: 14))
-                .frame(width: 20)
-            Text(title)
-                .foregroundStyle(.secondary)
-                .font(.headline)
-        }
-        Spacer()
-        Text("\(value, specifier: "%.0f")")
-            .font(.subheadline)
-            .foregroundStyle(.primary)
-        Text("g")
-            .font(.caption)
-            .foregroundStyle(.secondary)
     }
+    
+    @ViewBuilder
+    private func macroRow(title: String, color: Color, icon: String, value: Double) -> some View {
+        HStack{
+            HStack(spacing: 8) {
+                Image(systemName: icon)
+                    .foregroundStyle(color)
+                    .font(.system(size: 14))
+                    .frame(width: 20)
+                Text(title)
+                    .foregroundStyle(.secondary)
+                    .font(.headline)
+            }
+            Spacer()
+            Text("\(value, specifier: "%.0f")")
+                .font(.subheadline)
+                .foregroundStyle(.primary)
+            Text("g")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
     }
 }
 
 #Preview {
-    ProfileView(viewModel: ProfileViewModel())
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: DiaryDay.self, Meal.self, FoodItem.self, configurations: config)
+    let mockAppContainer = AppContainer(modelContext: container.mainContext)
+    
+    ProfileView(appContainer: mockAppContainer)
 }

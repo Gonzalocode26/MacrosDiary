@@ -74,8 +74,9 @@ struct DayFilterView: View {
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: DiaryDay.self, configurations: config)
-    let vm = StatsViewModel(localContext: container.mainContext)
+    let mockAppContainer = AppContainer(modelContext: container.mainContext)
+    let vm = StatsViewModel(localContext: container.mainContext, profileRepository: mockAppContainer.userProfileRepository)
     
-    return DayFilterView(viewModel: vm)
+    DayFilterView(viewModel: vm)
         .padding()
 }
