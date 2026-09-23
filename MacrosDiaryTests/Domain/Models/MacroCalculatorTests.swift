@@ -9,7 +9,7 @@ import XCTest
 @testable import MacrosDiary
 
 final class MacroCalculatorTests: XCTestCase {
-    func test_calculate_whenUserIsMaleAndActive_returnsCorrectMaintenanceCalories() {
+    func test_calculate_whenUserIsMaleAndActiveLosingWeight_returnsCorrectLossCalories() {
         // 1. ARRANGE
         let profile = UserProfile(
             name: "Gonzalo",
