@@ -25,7 +25,7 @@ final class SearchFoodUseCaseTests: XCTestCase {
         let results = try await sut.execute(query: "Pollo")
         
         // 3. ASSERT
-        XCTAssertFalse(results.isEmpty, "Result should'nt be an empty array if translation fails.")
+        XCTAssertFalse(results.isEmpty, "Result shouldn't be an empty array if translation fails.")
         XCTAssertEqual(results.first?.name, "Fake chicken", "Result should be in English if DeepL explodes")
     }
 }

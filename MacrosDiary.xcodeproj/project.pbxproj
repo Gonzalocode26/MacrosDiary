@@ -6,7 +6,18 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		C7236CD73063F66F00025F5E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C7AC7D932E94662600EF3EFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C7AC7D9A2E94662600EF3EFA;
+			remoteInfo = MacrosDiary;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		C7236CD33063F66F00025F5E /* MacrosDiaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacrosDiaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7AC7D9B2E94662600EF3EFA /* MacrosDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacrosDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -21,6 +32,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		C7236CD43063F66F00025F5E /* MacrosDiaryTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MacrosDiaryTests;
+			sourceTree = "<group>";
+		};
 		C7AC7D9D2E94662600EF3EFA /* MacrosDiary */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -32,6 +48,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		C7236CD03063F66F00025F5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C7AC7D982E94662600EF3EFA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -46,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				C7AC7D9D2E94662600EF3EFA /* MacrosDiary */,
+				C7236CD43063F66F00025F5E /* MacrosDiaryTests */,
 				C7AC7D9C2E94662600EF3EFA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				C7AC7D9B2E94662600EF3EFA /* MacrosDiary.app */,
+				C7236CD33063F66F00025F5E /* MacrosDiaryTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,6 +86,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		C7236CD23063F66F00025F5E /* MacrosDiaryTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C7236CD93063F66F00025F5E /* Build configuration list for PBXNativeTarget "MacrosDiaryTests" */;
+			buildPhases = (
+				C7236CCF3063F66F00025F5E /* Sources */,
+				C7236CD03063F66F00025F5E /* Frameworks */,
+				C7236CD13063F66F00025F5E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C7236CD83063F66F00025F5E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C7236CD43063F66F00025F5E /* MacrosDiaryTests */,
+			);
+			name = MacrosDiaryTests;
+			packageProductDependencies = (
+			);
+			productName = MacrosDiaryTests;
+			productReference = C7236CD33063F66F00025F5E /* MacrosDiaryTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		C7AC7D9A2E94662600EF3EFA /* MacrosDiary */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C7AC7DA82E94662800EF3EFA /* Build configuration list for PBXNativeTarget "MacrosDiary" */;
@@ -90,9 +138,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2600;
-				LastUpgradeCheck = 2600;
+				LastSwiftUpdateCheck = 2700;
+				LastUpgradeCheck = 2700;
 				TargetAttributes = {
+					C7236CD23063F66F00025F5E = {
+						CreatedOnToolsVersion = 27.0;
+						TestTargetID = C7AC7D9A2E94662600EF3EFA;
+					};
 					C7AC7D9A2E94662600EF3EFA = {
 						CreatedOnToolsVersion = 26.0.1;
 					};
@@ -113,11 +165,19 @@
 			projectRoot = "";
 			targets = (
 				C7AC7D9A2E94662600EF3EFA /* MacrosDiary */,
+				C7236CD23063F66F00025F5E /* MacrosDiaryTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		C7236CD13063F66F00025F5E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C7AC7D992E94662600EF3EFA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -128,6 +188,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		C7236CCF3063F66F00025F5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C7AC7D972E94662600EF3EFA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -137,7 +204,59 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		C7236CD83063F66F00025F5E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C7AC7D9A2E94662600EF3EFA /* MacrosDiary */;
+			targetProxy = C7236CD73063F66F00025F5E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		C7236CDA3063F66F00025F5E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4646ZQFC64;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gonzalomenendez.MacrosDiaryTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MacrosDiary.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MacrosDiary";
+			};
+			name = Debug;
+		};
+		C7236CDB3063F66F00025F5E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4646ZQFC64;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gonzalomenendez.MacrosDiaryTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MacrosDiary.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MacrosDiary";
+			};
+			name = Release;
+		};
 		C7AC7DA62E94662800EF3EFA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -197,6 +316,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -254,6 +374,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -330,6 +451,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C7236CD93063F66F00025F5E /* Build configuration list for PBXNativeTarget "MacrosDiaryTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C7236CDA3063F66F00025F5E /* Debug */,
+				C7236CDB3063F66F00025F5E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C7AC7D962E94662600EF3EFA /* Build configuration list for PBXProject "MacrosDiary" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
